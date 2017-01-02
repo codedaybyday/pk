@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>每天pk一道菜</title>
+	<script type="text/javascript" src="./vue.min.js"></script>
+	<style type="text/css">
+		*{margin:0;padding:0;list-style: none}
+		.fl{float:left;}
+		.fr{float: right;}
+		.faces{overflow: hidden;padding:0.417rem 0.417rem 0;}
+		.faces a{display: inline-block;width:7.29rem;height:8.75rem;}
+		.faces a img{max-width: 100%;}
+		.recipe-pk-detail{padding:1.458rem 0 1.25rem;}
+		.recipe-pk-detail ul{padding:0 1.0417rem 1.458rem;background: url("./images/pk.png") no-repeat center top;background-size: 2.083rem 2.083rem;overflow: hidden;}
+		.recipe-pk-detail ul>li{width:49.9%;}
+		.rate{font-size: 0.833rem;font-weight: bolder;margin-bottom: 0.417rem;}
+		.left-rate{color: #ff6e6e;}
+		.right-rate{color:#46c4ff;text-align: right;}
+		.recipe-num{color: #b0b0b0;font-size: 0.5rem;}
+		.right-align{text-align: right}
+		.pk-desc{font-size: 0.583rem;padding: 0 0.625rem;}
+	</style>
+</head>
+<body>
+	<div id="pk-app">
+		<faces></faces>
+		<recipe-pk-detail></recipe-pk-detail>
+	</div>
+</body>
+<script type="text/javascript">
+window.onload = function(){
+	var faces = {
+		template:'<div class="faces">\
+			<a href="" class="fl"><img src="./images/face_1.png"></a>\
+			<a href="" class="fr"><img src="./images/face_2.png"></a>\
+		</div>'
+	};
+	var recipe_pk_detail = {
+		template:'<div class="recipe-pk-detail">\
+			<ul>\
+				<li class="fl">\
+					<dl>\
+						<dd class="rate left-rate">52%</dd>\
+						<dd class="recipe-num">239人做了北红烧肉</dd>\
+					</dl>\
+				</li>\
+				<li class="fr">\
+					<dl>\
+						<dd class="rate right-rate">48%</dd>\
+						<dd class="recipe-num right-align">200人做了北红烧肉</dd>\
+					</dl>\
+				</li>\
+			</ul>\
+			<div class="pk-desc">\
+				南北红烧肉哪个更受欢迎？看作品知道。快来上传你的作品帮忙助阵！\
+			</div>\
+		</div>'
+	};
+	var app = new Vue({
+		el:'#pk-app',
+		components:{
+			'faces':faces,
+			'recipe-pk-detail':recipe_pk_detail
+		}
+	});
+	var docEle = document.documentElement; 
+	docEle.style.fontSize = 24*docEle.clientWidth/375+'px';
+};
+</script>
+</html>
