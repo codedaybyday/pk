@@ -21,12 +21,41 @@
 		.recipe-num{color: #b0b0b0;font-size: 0.5rem;}
 		.right-align{text-align: right}
 		.pk-desc{font-size: 0.583rem;padding: 0 0.625rem;}
+		.pk-tab-wrap{overflow: hidden;border-bottom: 1px solid #e6e2df;border-top: 1px solid #e6e2df;}
+		.pk-tab-wrap li{height: 2.083rem;width:49.9%;text-align: center;line-height: 2.083rem;}
+		.pk-tab-wrap li span{color:#333333;font-weight: bold;font-size: 0.625rem;padding:0 0.417rem 0;position: relative;display: inline-block;}
+		.pk-tab-wrap li span.active:after{position:absolute;height:0.1833rem;left:0;bottom: 0;background: #000;content: ' ';width:100%;}
 	</style>
 </head>
 <body>
 	<div id="pk-app">
-		<faces></faces>
-		<recipe-pk-detail></recipe-pk-detail>
+		<div class="faces">
+			<a href="" class="fl"><img src="./images/face_1.png"></a>
+			<a href="" class="fr"><img src="./images/face_2.png"></a>
+		</div>
+		<div class="recipe-pk-detail">
+			<ul>
+				<li class="fl">
+					<dl>
+						<dd class="rate left-rate">52%</dd>
+						<dd class="recipe-num">239人做了北红烧肉</dd>
+					</dl>
+				</li>
+				<li class="fr">
+					<dl>
+						<dd class="rate right-rate">48%</dd>
+						<dd class="recipe-num right-align">200人做了北红烧肉</dd>
+					</dl>
+				</li>
+			</ul>
+			<div class="pk-desc">
+				南北红烧肉哪个更受欢迎？看作品知道。快来上传你的作品帮忙助阵！
+			</div>
+		</div>
+		<ul class="pk-tab-wrap">
+			<li class="pk-tab fl"><span class="active">南红烧肉</span></li>
+			<li class="pk-tab fr"><span>北红烧肉</span></li>
+		</ul>
 	</div>
 </body>
 <script type="text/javascript">
