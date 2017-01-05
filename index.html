@@ -74,8 +74,8 @@
 			</div>
 		</div>
 		<ul class="pk-tab-wrap">
-			<li class="pk-tab fl"><span :class="index==0?'active':''" @click="toggle">{{left.dish_name}}</span></li>
-			<li class="pk-tab fr"><span :class="index==1?'active':''" @click="toggle">{{right.dish_name}}</span></li>
+			<li class="pk-tab fl"><span :class="{active:index==0}" @click="toggle">{{left.dish_name}}</span></li>
+			<li class="pk-tab fr"><span :class="{active:index==1}" @click="toggle">{{right.dish_name}}</span></li>
 		</ul>
 		<div class="content">
 			<div class="detail-btn">
@@ -89,12 +89,12 @@
 				<li class="uploads-btn fl">
 					+上传你的作品
 				</li>
-				<li class="list-item" v-for="item in list[index]">
+				<li class="list-item" v-for="item in list">
 					<a href=""><img :src="item.img" alt=""></a>
 					<div class="user-info">
 						<img :src="item.portrait" alt="" class="fl">
 						<dl class="fl">
-							<dd class="user-name">{{item.user_name}}</dd>
+							<dd class="user-name">{{item.user_name | substr(0,6)}}</dd>
 							<dd class="post-date">{{item.post_date}}</dd>
 						</dl>
 					</div>
@@ -106,6 +106,7 @@
 		</div>
 	</div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script type="text/javascript">
 window.onload = function(){
 	var data = {
@@ -129,113 +130,88 @@ window.onload = function(){
 		el:'#pk-app',
 		data:{
 			'left': {
-                'img': './images/face_1.png',
-                'rate': 0.52,
-                'dish_num': 240,
-                'id':122,
-                'dish_name':'南红烧肉'
+                'img': '',
+                'rate': 0,
+                'dish_num': 0,
+                'id':0,
+                'dish_name':''
             },
             'right':{
-                'img':'./images/face_2.png',
-                'rate':0.48,
-                'dish_num':200,
-                'id':124,
-                'dish_name':'北红烧肉'
+                'img':'',
+                'rate':0,
+                'dish_num':0,
+                'id':0,
+                'dish_name':''
             },
-			'des':'感到沮丧大家撒计划深度国际撒得更快打开',
+			'des':'',
 			'index':0,
-			list:[
-				[
-					{
-						'img':'./images/list-img.png',
-						'user_name':'李狗蛋',
-						'portrait':'./images/portrait.jpg',
-						'post_date':'2016-12-30',
-						'like':false,
-						'like_num':50,
-						'des':'好像ch'
-					},
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':50,
-                        'des':'好像ch'
-                    },
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':50,
-                        'des':'好像ch'
-                    },
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':50,
-                        'des':'好像ch'
-                    }
-				],
-                [
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋11111',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':false,
-                        'like_num':50,
-                        'des':'好像chaddsdsada'
-                    },
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋111111',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':50,
-                        'des':'好像chdsadsadasdsa'
-                    },
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋11111',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':150,
-                        'des':'好像chdsadsadasd'
-                    },
-                    {
-                        'img':'./images/list-img.png',
-                        'user_name':'李狗蛋111111',
-                        'portrait':'./images/portrait.jpg',
-                        'post_date':'2016-12-30',
-                        'like':true,
-                        'like_num':50,
-                        'des':'好像chdsadasdas'
-                    }
-                ]
-			]
+			'list':[]
 		},
 		methods:{
-			'toggle':function(){
+			toggle:function(){
 				this.index = this.index==0?1:0;
+				this.getInfo();
+			},
+			getInfo:function(){
+				var that = this;
+				$.ajax({
+        			'url':'list.php',
+        			'async':false,
+					'type':'POST',
+					'data':'index='+that.index,
+					'success':function(data){
+						var data = $.parseJSON(data);
+	        			that.list = data;
+					}
+        		});
 			}
+		},
+		beforeMount:function(){
+			var that = this;
+			console.log('beforeUpdate');
+			$.ajax({
+				'url':'pk.php',
+				'async':false,
+				'type':'POST',
+				'success':function(data){
+					var data = $.parseJSON(data);
+	        		console.log(data)
+	        		that.left = data.left;
+	        		that.right = data.right;
+	        		that.des = data.des;
+	        		that.index = data.index;
+	        		that.getInfo();
+				}
+			});
+			/*$.post('pk.php',function(data){
+        		var data = $.parseJSON(data);
+        		console.log(data)
+        		that.left = data.left;
+        		that.right = data.right;
+        		that.des = data.des;
+        		that.index = data.index;
+        		$.post('list.php',{index:that.index},function(data){
+        			var data = $.parseJSON(data);
+        			console.log(data);
+        			that.list = data;
+        		});
+        	});*/
 		},
         mounted:function () {
 			console.log(this.$refs.list.children);
-			if(this.list[this.index].length){
-				//this.$refs.list.style.height =
+			if(this.list.length){
 				var children = this.$refs.list.children;
 				console.log(children[0].offsetHeight);
-				children[0].style.height =children[1].offsetHeight + 'px';
+				for(var i=0;i<children.length;i++){
+					console.log(11);
+					children[i].style.height = 15+'rem';
+				}
 			}
+        },
+        filters:{
+        	substr:function(s,from,to){
+        		return s.substr(from,to);
+        	}
         }
 	});
 	var docEle = document.documentElement;
