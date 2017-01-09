@@ -37,7 +37,7 @@
             </div>
             <ul class="list" ref="list">
                 <li class="uploads-btn fl">
-                    +上传你的作品11111
+                    +上传你的作品
                 </li>
                 <li class="list-item" v-for="item in list">
                     <a href=""><img :src="item.img" alt=""></a>
